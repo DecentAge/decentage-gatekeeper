@@ -1,4 +1,4 @@
-module github.com/gogatekeeper/gatekeeper
+module github.com/DecentAge/decentage-gatekeeper
 
 require (
 	github.com/PuerkitoBio/purell v1.1.2-0.20201208131035-5a810c9252c4

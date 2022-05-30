@@ -1,5 +1,5 @@
-NAME=gatekeeper
-AUTHOR=gogatekeeper
+NAME=decentage-gatekeeper
+AUTHOR=decentage-gatekeeper
 REGISTRY=quay.io
 CONTAINER_TOOL=$(shell command -v podman 2>/dev/null || command -v docker)
 ROOT_DIR=${PWD}

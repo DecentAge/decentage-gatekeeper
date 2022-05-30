@@ -1,5 +1,5 @@
 #!/bin/bash -e
-NAME="gatekeeper"
+NAME="decentage-gatekeeper"
 PLATFORMS="darwin linux windows"
 ARCHITECTURES="amd64"
 GIT_SHA=$(git --no-pager describe --always --dirty)

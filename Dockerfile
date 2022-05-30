@@ -31,10 +31,10 @@ RUN echo "gatekeeper:x:1000:gatekeeper" >> /etc/group && \
 FROM scratch
 ARG HOMEDIR
 
-LABEL Name=gatekeeper \
-      Release=https://github.com/gogatekeeper/gatekeeper \
-      Url=https://github.com/gogatekeeper/gatekeeper \
-      Help=https://github.com/gogatekeeper/gatekeeper/issues
+LABEL Name=decentage-gatekeeper \
+      Release=https://github.com/DecentAge/decentage-gatekeeper \
+      Url=https://github.com/DecentAge/decentage-gatekeeper \
+      Help=https://github.com/DecentAge/decentage-gatekeeper/issues
 
 COPY --chown=1000:1000 --from=build-env ${HOMEDIR} ${HOMEDIR}
 COPY --from=build-env /etc/passwd /etc/passwd

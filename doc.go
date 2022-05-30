@@ -35,8 +35,8 @@ var (
 type contextKey int8
 
 const (
-	prog        = "gatekeeper"
-	author      = "go-gatekeeper"
+	prog        = "decentage-gatekeeper"
+	author      = "decentage-gatekeeper"
 	email       = ""
 	description = "is a proxy using the keycloak service for auth and authorization"
 
