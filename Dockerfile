@@ -15,14 +15,14 @@ RUN make static
 
 WORKDIR ${HOMEDIR}
 
-RUN cp /src/bin/gatekeeper .
+RUN cp /src/bin/decentage-gatekeeper .
 COPY templates ./templates
 
 RUN echo "gatekeeper:x:1000:gatekeeper" >> /etc/group && \
     echo "gatekeeper:x:1000:1000:gatekeeper user:${HOMEDIR}:/sbin/nologin" >> /etc/passwd && \
     chown -R gatekeeper:gatekeeper ${HOMEDIR} && \
     chmod -R g+rw ${HOMEDIR} && \
-    chmod +x gatekeeper
+    chmod +x decentage-gatekeeper
 
 #
 # Actual image
@@ -44,4 +44,4 @@ COPY --from=build-env /etc/ssl/certs /etc/ssl/certs
 
 WORKDIR ${HOMEDIR}
 USER 1000
-ENTRYPOINT [ "/opt/gatekeeper/gatekeeper" ]
+ENTRYPOINT [ "/opt/gatekeeper/decentage-gatekeeper" ]
