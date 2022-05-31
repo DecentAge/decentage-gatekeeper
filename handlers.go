@@ -668,11 +668,12 @@ func (r *oauthProxy) logoutHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		r.redirectToURL(
-			fmt.Sprintf(
-				"%s?redirect_uri=%s",
+			/*fmt.Sprintf(
+				"%s?post_logout_redirect_uri=%s&id_token_hint=%s",
 				sendTo,
 				url.QueryEscape(redirectURL),
-			),
+				identityToken,
+			)*/ sendTo,
 			w,
 			req,
 			http.StatusSeeOther,
