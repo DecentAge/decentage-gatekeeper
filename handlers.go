@@ -25,6 +25,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"strconv"
 
 	"net/http"
 	"net/http/pprof"
@@ -95,6 +96,7 @@ func (r *oauthProxy) oauthAuthorizationHandler(w http.ResponseWriter, req *http.
 	}
 
 	authURL := conf.AuthCodeURL(req.URL.Query().Get("state"), accessType)
+	authURL += "&timestamp=" + strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
 
 	r.log.Debug(
 		"incoming authorization request from client address",
@@ -595,9 +597,9 @@ func (r *oauthProxy) loginHandler(w http.ResponseWriter, req *http.Request) {
 func emptyHandler(w http.ResponseWriter, req *http.Request) {}
 
 // logoutHandler performs a logout
-//  - if it's just a access token, the cookie is deleted
-//  - if the user has a refresh token, the token is invalidated by the provider
-//  - optionally, the user can be redirected by to a url
+//   - if it's just a access token, the cookie is deleted
+//   - if the user has a refresh token, the token is invalidated by the provider
+//   - optionally, the user can be redirected by to a url
 func (r *oauthProxy) logoutHandler(w http.ResponseWriter, req *http.Request) {
 	// @check if the redirection is there
 	var redirectURL string
@@ -673,7 +675,7 @@ func (r *oauthProxy) logoutHandler(w http.ResponseWriter, req *http.Request) {
 				sendTo,
 				url.QueryEscape(redirectURL),
 				identityToken,
-			)*/ sendTo,
+			)*/sendTo,
 			w,
 			req,
 			http.StatusSeeOther,
