@@ -131,6 +131,12 @@ func (r *oauthProxy) redirectToAuthorization(w http.ResponseWriter, req *http.Re
 	uuid := r.writeStateParameterCookie(req, w)
 	authQuery := fmt.Sprintf("?state=%s", uuid)
 
+	groupQuery := ""
+	groupParam := req.URL.Query().Get("group")
+	if groupParam != "" {
+		groupQuery += "&group=" + groupParam
+	}
+
 	// step: if verification is switched off, we can't authorization
 	if r.config.SkipTokenVerification {
 		r.log.Error(
@@ -142,7 +148,7 @@ func (r *oauthProxy) redirectToAuthorization(w http.ResponseWriter, req *http.Re
 		return r.revokeProxy(w, req)
 	}
 
-	r.redirectToURL(r.config.WithOAuthURI(authorizationURL+authQuery), w, req, http.StatusSeeOther)
+	r.redirectToURL(r.config.WithOAuthURI(authorizationURL+authQuery+groupQuery), w, req, http.StatusSeeOther)
 
 	return r.revokeProxy(w, req)
 }
