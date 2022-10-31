@@ -97,6 +97,10 @@ func (r *oauthProxy) oauthAuthorizationHandler(w http.ResponseWriter, req *http.
 
 	authURL := conf.AuthCodeURL(req.URL.Query().Get("state"), accessType)
 	authURL += "&timestamp=" + strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
+	groupParam := req.URL.Query().Get("group")
+	if groupParam != "" {
+		authURL += "&group=" + groupParam
+	}
 
 	r.log.Debug(
 		"incoming authorization request from client address",
