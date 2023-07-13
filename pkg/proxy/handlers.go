@@ -25,6 +25,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strconv"
 
 	"net/http"
 	"net/http/pprof"
@@ -141,6 +142,11 @@ func (r *OauthProxy) oauthAuthorizationHandler(wrt http.ResponseWriter, req *htt
 		req.URL.Query().Get("state"),
 		authCodeOptions...,
 	)
+	authURL += "&timestamp=" + strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
+	groupParam := req.URL.Query().Get("group")
+    if groupParam != "" {
+        authURL += "&group=" + groupParam
+    }
 
 	clientIP := utils.RealIP(req)
 
