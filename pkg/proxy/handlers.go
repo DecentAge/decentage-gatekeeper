@@ -142,11 +142,17 @@ func (r *OauthProxy) oauthAuthorizationHandler(wrt http.ResponseWriter, req *htt
 		req.URL.Query().Get("state"),
 		authCodeOptions...,
 	)
-	authURL += "&timestamp=" + strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
-	groupParam := req.URL.Query().Get("group")
-    if groupParam != "" {
-        authURL += "&group=" + groupParam
-    }
+
+	if(r.Config.AddTimestampToUpstreamAuthRequest) {
+		authURL += "&timestamp=" + strconv.FormatInt(time.Now().UnixNano()/int64(time.Millisecond), 10)
+	}
+
+	for _, param := range r.Config.UpstreamQueryParamsToAuthRequest {
+		paramValue := req.URL.Query().Get(param)
+		if paramValue != "" {
+			authURL += "&" + param + "=" + paramValue
+		}
+	}
 
 	clientIP := utils.RealIP(req)
 

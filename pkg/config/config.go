@@ -314,6 +314,10 @@ type Config struct {
 	DiscoveryURI        *url.URL
 	OpaAuthzURL         *url.URL
 	IsDiscoverURILegacy bool
+
+	// Query parameters to send from site to auth server.
+	UpstreamQueryParamsToAuthRequest []string `json:"upstream-query-params-to-auth-request" yaml:"upstream-query-params-to-auth-request" usage:"query parameters to send from site to auth server" env:"UPSTREAM_QUERY_PARAMS_TO_AUTH_REQUEST"`
+	AddTimestampToUpstreamAuthRequest bool `json:"add-timestamp-to-upstream-auth-request" yaml:"add-timestamp-to-upstream-auth-request" usage:"add timestamp to auth server auth request" env:"ADD_TIMESTAMP_TO_UPSTREAM_AUTH_REQUEST"`
 }
 
 // NewDefaultConfig returns a initialized config

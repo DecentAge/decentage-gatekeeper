@@ -240,11 +240,13 @@ func (r *OauthProxy) redirectToAuthorization(wrt http.ResponseWriter, req *http.
 	uuid := r.writeStateParameterCookie(req, wrt)
 	authQuery := fmt.Sprintf("?state=%s", uuid)
 
-	groupQuery := ""
-    groupParam := req.URL.Query().Get("group")
-    if groupParam != "" {
-        groupQuery += "&group=" + groupParam
-    }
+	queryParams := ""
+	for _, param := range r.Config.UpstreamQueryParamsToAuthRequest {
+		paramValue := req.URL.Query().Get(param)
+		if paramValue != "" {
+			queryParams += "&" + param + "=" + paramValue
+		}
+	}
 
 	// step: if verification is switched off, we can't authorization
 	if r.Config.SkipTokenVerification {
@@ -257,7 +259,7 @@ func (r *OauthProxy) redirectToAuthorization(wrt http.ResponseWriter, req *http.
 		return r.revokeProxy(wrt, req)
 	}
 
-	url := r.Config.WithOAuthURI(constant.AuthorizationURL + authQuery + groupQuery)
+	url := r.Config.WithOAuthURI(constant.AuthorizationURL + authQuery + queryParams)
 
 	if r.Config.NoProxy && !r.Config.NoRedirects {
 		xForwardedHost := req.Header.Get("X-Forwarded-Host")
